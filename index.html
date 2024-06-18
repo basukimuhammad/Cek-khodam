@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Khodam</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            border: 2px solid red;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #1a1a1a;
+            width: 400px;
+            box-shadow: 0 0 10px red;
+        }
+        h1 {
+            color: red;
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-family: 'Creepster', cursive;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-family: 'Creepster', cursive;
+        }
+        input {
+            padding: 10px;
+            width: calc(100% - 24px);
+            border: 2px solid red;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background-color: #333;
+            color: white;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: red;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Creepster', cursive;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            font-family: 'Creepster', cursive;
+            text-shadow: 2px 2px 5px red, -2px 2px 5px red, 2px -2px 5px red, -2px -2px 5px red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CEK KHODAM</h1>
+        <p>MASUKKAN NAMA ANDA:</p>
+        <input type="text" id="nameInput">
+        <br>
+        <button onclick="cekKhodam()">Cek sekarang</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function cekKhodam() {
+    const name = document.getElementById('nameInput').value.trim();
+
+    // Memeriksa panjang nama, harus lebih dari satu huruf
+    if (name.length <= 1) {
+        document.getElementById('result').innerText = "Nama tidak valid. Harap masukkan nama yang benar jangan setengah-setengah.";
+        return;
+    }
+
+    const forbiddenWords = ["kamu", "apa", "dia", "ini", "itu", 
+                            "saya", "orang"];
+
+    if (forbiddenWords.some(word => name.toLowerCase().includes(word))) {
+        document.getElementById('result').innerText = "Nama tidak valid. Harap masukkan nama yang benar.";
+        return;
+    }
+
+    // Kata-kata toksik yang tidak diperbolehkan
+    const toxic = [
+        'anj', 'babi', 'kontol', 'anying', 'asu', 'tempek', 'puki', 'memek', 'pekok', 'komtol', 
+        'anjing', 'pukimak', 'titid', 'silet', 'pantat', 'yatim piatu', 'pantek', 'tunjang', 'jancok', 
+        'kontolodon', 'ngentod', 'ngen', 'kon', 'titit', 'jembot', 'bgst', 'yatim', 'nenen', 'ngewe', 
+        'n3n3n', 'ng3w3', 'ewe', '3w3', 'k0nt0l', 'tuli', 'miskin', 'buta map', 'buta', 'but4', 'but4 m4p', 
+        'but4 map', 'dong0', 'd0ngo', 'd0ng0', 'p3nis', 'penis', 'p3n1s', 'pen1s', 'p3ler', 'p3l3r', 'k0n', 
+        'k0ntol', 'k0nt0l', 'dontol', 'd0ntol', 'd0nt0l', 'monyet', 'm0nyet', 'm0ny3t', 'celeng', 'c3leng', 
+        'c3l3ng', 'cel3ng', 'ketek', 'k3tek', 'k3t3k', 'ket3k', 'ng3ntod', 'ngent0d', 'ng3nt0d', 'ng3n', 'jnck', 
+        'kntl', 'mmk', 'j4ncok', 'janc0k', 'j4nc0k', 'p3ler', 'p3l3r', 'pel3r', 'vaginal', 'v4ginal', 'v4g1nal', 
+        'v4g1n4l', 'vag1n4l', 'vag1nal', 'vagin4l', 'kencing', 'k3ncing', 'tai', 't4i', 'ta!', 't4!', 'ta1', 't41', 
+        'ppek', 'pepek', 'p3p3k', 't3mp3k', 'mani', 'm4ni', 'man1', 'm4n1', 'air mani', 'bapak lu', 'mamak lu', 
+        'tak pelatok ndase', 'ndase', 'lu sok asik', 'platok ndase', 'jemb0t', 'p3k0k', 'pek0k', 'bangsat', 
+        'b4ngs4t', 'b4ngsat', 'bangs4t', 'buta map', 'tolol', 'bajingan', 'b4j1ng4n', 'brengsek', 'br3ngs3k', 
+        'lolot', 'l0l0t', 'fuck', 'fack you', 'fack', 'b4bi', 'b4b!', 'bab1', 'b4b1', 'lu memang anak haram', 
+        'lu memang anak haram lo', 'kaninia jibay', 'kaninia', 'jibay', 'kampret', 'k4mpr3t', 'tytyd', 't1t1d', 
+        'anak bangsat', 'anj lu', 'kanjut'
+    ];
+
+    if (toxic.some(word => name.toLowerCase().includes(word))) {
+        document.getElementById('result').innerText = "Nama tidak valid. Harap masukkan nama yang benar, tidak boleh mengandung kata-kata kasar.";
+        return;
+    }
+
+    const messages = [
+        `Kamu bersih dari khodam, ${name}.`,
+        `${name}, kamu memiliki khodam yang kuat yaitu harimau putih.`,
+        `${name}, kamu memiliki khodam yang kuat yaitu naga putih.`,
+        `${name}, kamu memiliki khodam yang kuat yaitu siluman kera.`,
+        `${name}, kamu memiliki khodam tiang pln,. awas kesetrum.`,
+        `${name}, kamu memiliki khodam siluman ular.`,
+        `khodam kamu ${name} tidak ada.`,
+        `${name}, Khodam kamu siluman Biawak.`,
+        `${name}, kamu tidak ada khodam tapi kamu memiliki allah yg senantiasa menjagamu.`
+    ];
+
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    document.getElementById('result').innerText = randomMessage;
+
+    // Simpan hasil ke localStorage
+    localStorage.setItem("lastCheckedName", randomMessage);
+}
+
+// Memeriksa apakah ada hasil sebelumnya di localStorage
+document.addEventListener("DOMContentLoaded", function() {
+    const lastCheckedName = localStorage.getItem("lastCheckedName");
+    if (lastCheckedName) {
+        document.getElementById('result').innerText = lastCheckedName;
+    }
+});
+    </script>
+</body>
+</html>
